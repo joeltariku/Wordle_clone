@@ -4,7 +4,7 @@ type GuessRowProps = {
 
 export default function GuessRow({ guess }: GuessRowProps) {
     return (
-        <div className="guess-row">
+        <div className="guess-row" data-testid="board-row">
             {Array.from({ length: 5}).map((_, i) => (
                 <div key={i} className="guess-letter">{guess[i] || ''}</div>
             ))}

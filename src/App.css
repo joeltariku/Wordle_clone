@@ -40,6 +40,8 @@
     border: 1px solid white;
     width: 19%;
     height: 100%;
+    font-size: 20px;
+    color: white;
 }
 
 .keyboard {
