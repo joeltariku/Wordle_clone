@@ -8,16 +8,25 @@ import { isValidGuess } from './guesses/validateGuess';
 export default function App() {
   const [currentGuess, setCurrentGuess] = useState<string>('');
   const [guesses, setGuesses] = useState<string[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleKey = useCallback((key: string) => {
     if (key === 'Enter') {
         // TODO: Handle Enter key press
         if (currentGuess.length < 5) {
           console.log("Not enough letters!")
+          setErrorMessage("Not enough letters!");
+          setTimeout(() => {
+            setErrorMessage('');
+          }, 1000)
         } else {
           const validGuess = isValidGuess(currentGuess)
           if (!validGuess) {
             console.log("Not a valid guess!")
+            setErrorMessage("Not a valid guess!");
+            setTimeout(() => {
+              setErrorMessage('');
+            }, 1000)
           } else {
             setGuesses(prev => [...prev, currentGuess]);
             setCurrentGuess('');
@@ -53,7 +62,7 @@ export default function App() {
 
   return (
     <GamePage>
-      <Gameboard guesses={guesses} currentGuess={currentGuess} />
+      <Gameboard guesses={guesses} currentGuess={currentGuess} errorMessage={errorMessage}/>
       <KeyBoard />
     </GamePage>
   )
