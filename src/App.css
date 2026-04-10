@@ -18,12 +18,26 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    margin-top: 2rem;
+    /*margin-top: 2rem; */
     width: 350px;
     height: 450px;
     background-color: black;
     /* border: 2px solid white; */
     gap: 0.3rem;
+    position: relative;
+}
+
+.error-message {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+    background: white;
+    position: absolute;
+    top: 0%;
+    padding: 1rem;
+    border-radius: 5%;
 }
 
 .guess-row {
@@ -37,7 +51,7 @@
 }
 
 .guess-letter {
-    border: 1px solid white;
+    border: 1px solid grey;
     width: 19%;
     height: 100%;
     font-size: 20px;
