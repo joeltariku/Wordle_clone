@@ -9,3 +9,5 @@ export const getDailyWord = (): string => {
     const answer = ANSWERS[dayIndex % ANSWERS.length]
     return answer;
 }              
+
+export const ANSWER = getDailyWord()
