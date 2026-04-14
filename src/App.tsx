@@ -4,14 +4,18 @@ import Gameboard from "./components/Gameboard";
 import GamePage from './components/GamePage';
 import KeyBoard from './components/KeyBoard';
 import { isValidGuess } from './guesses/validateGuess';
+import { ANSWER } from './answers/answers';
 
 export default function App() {
   const [currentGuess, setCurrentGuess] = useState<string>('');
   const [guesses, setGuesses] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [guessedCorrect, setGuessedCorrect] = useState<boolean>(false)
 
   const handleKey = useCallback((key: string) => {
-    if (key === 'Enter') {
+    if (guessedCorrect) {
+      return
+    } else if (key === 'Enter') {
         // TODO: Handle Enter key press
         if (currentGuess.length < 5) {
           console.log("Not enough letters!")
@@ -30,6 +34,10 @@ export default function App() {
           } else {
             setGuesses(prev => [...prev, currentGuess]);
             setCurrentGuess('');
+            if (currentGuess === ANSWER) {
+              setGuessedCorrect(true)
+              console.log("You guessed correctly!")
+            }
           }
         }
     } else if (key === 'Backspace') {
@@ -42,7 +50,7 @@ export default function App() {
         }
         //setGuesses(prev => [...prev.slice(0, -1), prev[prev.length - 1] + key.toUpperCase()]);
     }
-  }, [currentGuess]);
+  }, [currentGuess, guessedCorrect]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
