@@ -2,6 +2,10 @@ import {act, fireEvent, render, screen} from '@testing-library/react';
 import App from './App';
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';   
 
+vi.mock('./answers/answers.ts', () => ({
+    ANSWER: "APPLE"
+}))
+
 describe("App", () => {
     it("renders the App", () => {
         render(<App />)
@@ -79,6 +83,63 @@ describe("App", () => {
             })
 
             expect(screen.queryByText("Not enough letters!")).toBeInTheDocument()
+        })
+    })
+    describe('Guesses', () => {
+        const mockAnswer = "APPLE"
+        const wrongAnswer = "TOXIN"
+        describe('Correct guesses', () => {
+            it('does nothing for key presses after guessing correctly first try', () => {
+                render(<App />)
+                mockAnswer.split('').forEach(letter => {
+                    fireEvent.keyDown(window, { key: letter })
+                })
+                fireEvent.keyDown(window, { key: 'Enter' })
+
+                fireEvent.keyDown(window, { key: 'A' })
+
+                const rows = screen.getAllByTestId('board-row')
+                expect(rows[1].textContent).toBe('')
+            })
+            it('does nothing for "Enter" key press after guessing correctly on last try', () => {
+                render(<App />)
+
+                //guess wrong 5 times before guessing correct on last try
+                wrongAnswer.split('').forEach(letter => {
+                    fireEvent.keyDown(window, { key: letter })
+                })
+                fireEvent.keyDown(window, { key: 'Enter' })
+                
+                wrongAnswer.split('').forEach(letter => {
+                    fireEvent.keyDown(window, { key: letter })
+                })
+                fireEvent.keyDown(window, { key: 'Enter' })
+
+                wrongAnswer.split('').forEach(letter => {
+                    fireEvent.keyDown(window, { key: letter })
+                })
+                fireEvent.keyDown(window, { key: 'Enter' })
+
+                wrongAnswer.split('').forEach(letter => {
+                    fireEvent.keyDown(window, { key: letter })
+                })
+                fireEvent.keyDown(window, { key: 'Enter' })
+
+                wrongAnswer.split('').forEach(letter => {
+                    fireEvent.keyDown(window, { key: letter })
+                })
+                fireEvent.keyDown(window, { key: 'Enter' })
+
+                //correct guess on last try
+                mockAnswer.split('').forEach(letter => {
+                    fireEvent.keyDown(window, { key: letter })
+                })
+                fireEvent.keyDown(window, { key: 'Enter' })
+
+                fireEvent.keyDown(window, { key: 'Enter' })
+
+                expect(screen.queryByText("Not enough letters!")).not.toBeInTheDocument()
+            })
         })
     })
 })
