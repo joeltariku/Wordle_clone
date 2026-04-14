@@ -18,7 +18,6 @@ export default function App() {
     } else if (key === 'Enter') {
         // TODO: Handle Enter key press
         if (currentGuess.length < 5) {
-          console.log("Not enough letters!")
           setErrorMessage("Not enough letters!");
           setTimeout(() => {
             setErrorMessage('');
@@ -26,7 +25,6 @@ export default function App() {
         } else {
           const validGuess = isValidGuess(currentGuess)
           if (!validGuess) {
-            console.log("Not a valid guess!")
             setErrorMessage("Not a valid guess!");
             setTimeout(() => {
               setErrorMessage('');
@@ -54,7 +52,6 @@ export default function App() {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      console.log(event.key);
       // TODO: Double check regex for letters and length of key to prevent unwanted keys from being processed
       if (event.key === 'Enter' || event.key === 'Backspace' || (event.key.length === 1 && /^[a-zA-Z]$/.test(event.key))) {
           handleKey(event.key);
