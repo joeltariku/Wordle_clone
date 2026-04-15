@@ -67,7 +67,12 @@ export default function App() {
 
   return (
     <GamePage>
-      <Gameboard guesses={guesses} currentGuess={currentGuess} errorMessage={errorMessage}/>
+      <Gameboard 
+        guesses={guesses} 
+        currentGuess={currentGuess} 
+        errorMessage={errorMessage}
+        answer={ANSWER}
+      />
       <KeyBoard />
     </GamePage>
   )
