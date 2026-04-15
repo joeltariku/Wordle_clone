@@ -61,6 +61,18 @@
     justify-content: space-around;
 }
 
+.guess-letter.dark-grey {
+    background-color: #31363F;
+}
+
+.guess-letter.yellow {
+    background-color: #c9b458;
+}
+
+.guess-letter.green {
+    background-color: green;
+}
+
 .keyboard {
     display: flex;
     flex-direction: column;
