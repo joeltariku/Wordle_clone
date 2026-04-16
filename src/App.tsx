@@ -5,12 +5,16 @@ import GamePage from './components/GamePage';
 import KeyBoard from './components/KeyBoard';
 import { isValidGuess } from './guesses/validateGuess';
 import { ANSWER } from './answers/answers';
+import mapGuessToColors from './guesses/mapGuessToColors';
 
 export default function App() {
   const [currentGuess, setCurrentGuess] = useState<string>('');
   const [guesses, setGuesses] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [guessedCorrect, setGuessedCorrect] = useState<boolean>(false)
+  const [allLettersGuessed, setAllLettersGuessed] = useState<Set<string>>(new Set())
+  const [allLettersInCorrectSpot, setAllLettersInCorrectSpot] = useState<Set<string>>(new Set())
+  const [allLettersInDiffSpot, setAllLettersInDiffSpot] = useState<Set<string>>(new Set())
 
   const handleKey = useCallback((key: string) => {
     if (guessedCorrect) {
@@ -31,6 +35,17 @@ export default function App() {
             }, 1000)
           } else {
             setGuesses(prev => [...prev, currentGuess]);
+
+            const colors = mapGuessToColors(currentGuess, ANSWER)
+            currentGuess.split('').forEach((letter, i) => {
+              setAllLettersGuessed(prevSet => new Set(prevSet).add(letter))
+              if (colors![i] === "green") {
+                setAllLettersInCorrectSpot(prevSet => new Set(prevSet).add(letter))
+              } else if (colors![i] === "yellow") {
+                setAllLettersInDiffSpot(prevSet => new Set(prevSet).add(letter))
+              }
+            })
+
             setCurrentGuess('');
             if (currentGuess === ANSWER) {
               setGuessedCorrect(true)
@@ -73,7 +88,11 @@ export default function App() {
         errorMessage={errorMessage}
         answer={ANSWER}
       />
-      <KeyBoard />
+      <KeyBoard 
+        allLettersGuessed={allLettersGuessed}
+        allLettersInCorrectSpot={allLettersInCorrectSpot}
+        allLettersInDiffSpot={allLettersInDiffSpot}
+      />
     </GamePage>
   )
 }
