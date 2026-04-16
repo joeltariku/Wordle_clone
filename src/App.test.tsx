@@ -190,5 +190,67 @@ describe("App", () => {
                 expect(letters[4]).toHaveClass('dark-grey')
             })
         })
+        describe('Keyboard colors', () => {
+            it('updates Keyboard key colors correctly after valid guesses', () => {
+                render(<App />)
+                
+                wrongAnswer.split('').forEach(letter => {
+                    fireEvent.keyDown(window, { key: letter })
+                })
+                fireEvent.keyDown(window, { key: 'Enter' })
+
+                wrongAnswer.split('').forEach(letter => {
+                    expect(screen.getByTestId(`key-${letter}`)).toHaveClass('dark-grey')
+                })
+
+                wrongAnswer2.split('').forEach(letter => {
+                    fireEvent.keyDown(window, { key: letter })
+                })
+                fireEvent.keyDown(window, { key: 'Enter' })
+
+                let key1 = screen.getByTestId(`key-${wrongAnswer2.at(0)}`)
+                let key2 = screen.getByTestId(`key-${wrongAnswer2.at(1)}`)
+                let key3 = screen.getByTestId(`key-${wrongAnswer2.at(2)}`)
+                let key4 = screen.getByTestId(`key-${wrongAnswer2.at(3)}`)
+                let key5 = screen.getByTestId(`key-${wrongAnswer2.at(4)}`)
+
+                expect(key1).toHaveClass('dark-grey')
+                expect(key2).toHaveClass('dark-grey')
+                expect(key3).toHaveClass('dark-grey')
+                expect(key4).toHaveClass('yellow')
+                expect(key5).toHaveClass('dark-grey')
+
+                mockAnswer.split('').forEach(letter => {
+                    fireEvent.keyDown(window, { key: letter })
+                })
+                fireEvent.keyDown(window, { key: 'Enter' })
+
+                key1 = screen.getByTestId(`key-${mockAnswer.at(0)}`)
+                key2 = screen.getByTestId(`key-${mockAnswer.at(1)}`)
+                key3 = screen.getByTestId(`key-${mockAnswer.at(2)}`)
+                key4 = screen.getByTestId(`key-${mockAnswer.at(3)}`)
+                key5 = screen.getByTestId(`key-${mockAnswer.at(4)}`)
+
+                expect(key1).toHaveClass('green')
+                expect(key2).toHaveClass('green')
+                expect(key3).toHaveClass('green')
+                expect(key4).toHaveClass('green')
+                expect(key5).toHaveClass('green')
+            })
+            it('does not update Keyboard key colors after submitting invalid guess', () => {
+                 render(<App />)
+
+                 const invalidGuess = "DAVIL"
+
+                 invalidGuess.split('').forEach(letter => {
+                    fireEvent.keyDown(window, { key: letter })
+                 })
+                 fireEvent.keyDown(window, { key: 'Enter' })
+
+                 invalidGuess.split('').forEach(letter => {
+                    expect(screen.getByTestId(`key-${letter}`)).toHaveClass('default-color')
+                 })
+            })
+        })
     })
 })
