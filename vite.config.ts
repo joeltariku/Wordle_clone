@@ -3,7 +3,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [react()],
   test: {
     environment: 'jsdom',
@@ -12,5 +12,6 @@ export default defineConfig({
       reporter: ['html', 'json']
     },
     setupFiles: ['./vitest-setup.ts']
-  }
-})
+  }, 
+  base: command === 'build' ? '/Wordle_clone/' : '/'
+}))
