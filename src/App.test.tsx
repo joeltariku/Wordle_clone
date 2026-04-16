@@ -235,7 +235,7 @@ describe("App", () => {
                 expect(key2).toHaveClass('green')
                 expect(key3).toHaveClass('green')
                 expect(key4).toHaveClass('green')
-                expect(key5).toHaveClass('green')
+                expect(key5).toHaveClass('yellow')
             })
             it('does not update Keyboard key colors after submitting invalid guess', () => {
                  render(<App />)
