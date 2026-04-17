@@ -252,5 +252,52 @@ describe("App", () => {
                  })
             })
         })
+        describe('On-screen keyboard input', () => {
+            it('clicking a letter key adds it to the current guess', () => { 
+                render(<App />)
+
+                const keyA = screen.getByTestId('key-A')
+                const keyP = screen.getByTestId('key-P')
+
+                fireEvent.click(keyA)
+                fireEvent.click(keyP)
+
+                const currentRow = screen.getByTestId('board-row-0');
+                expect(currentRow.textContent).toBe('AP');
+            })
+            it('clicking Enter submits the guess', () => {
+                render(<App />)
+
+                mockAnswer.split('').forEach(letter => {
+                    const key = screen.getByTestId(`key-${letter}`)
+                    fireEvent.click(key)
+                })
+
+                const enterKey = screen.getByTestId('key-Enter')
+                fireEvent.click(enterKey)
+
+                const row0 = screen.getByTestId('board-row-0')
+                const letters = within(row0).getAllByTestId(/^letter-/)
+
+                letters.forEach(letter => {
+                    expect(letter).toHaveClass('green')
+                })
+            })
+            it('clicking Back removes the last letter', () => {
+                render(<App />)
+
+                const keyA = screen.getByTestId('key-A')
+                const keyP = screen.getByTestId('key-P')
+                const keyBack = screen.getByTestId('key-Back')
+
+                fireEvent.click(keyA)
+                fireEvent.click(keyP)
+                fireEvent.click(keyBack)
+
+                const currentRow = screen.getByTestId('board-row-0');
+                expect(currentRow.textContent).toBe('A');
+            })
+        })
+
     })
 })

@@ -53,7 +53,7 @@ export default function App() {
             }
           }
         }
-    } else if (key === 'Backspace') {
+    } else if (key === 'Backspace' || key === 'Back') {
         // TODO: Handle Backspace key press
         setCurrentGuess(prev => prev.slice(0, -1));
     } else if (key.length === 1 && key.match(/[a-z]/i)) {
@@ -92,6 +92,7 @@ export default function App() {
         allLettersGuessed={allLettersGuessed}
         allLettersInCorrectSpot={allLettersInCorrectSpot}
         allLettersInDiffSpot={allLettersInDiffSpot}
+        handleKeyPress={handleKey}
       />
     </GamePage>
   )

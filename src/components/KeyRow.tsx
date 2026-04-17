@@ -5,9 +5,16 @@ type KeyRowProps = {
     allLettersGuessed: Set<string>;
     allLettersInCorrectSpot: Set<string>;
     allLettersInDiffSpot: Set<string>;
+    handleKeyPress: (key: string) => void;
 }
 
-export default function KeyRow({ keys, allLettersGuessed, allLettersInCorrectSpot, allLettersInDiffSpot }: KeyRowProps) {
+export default function KeyRow({ 
+    keys, 
+    allLettersGuessed, 
+    allLettersInCorrectSpot,
+    allLettersInDiffSpot,
+    handleKeyPress 
+}: KeyRowProps) {
     return (
         <div className="key-row">
             {keys.map((key) => {
@@ -21,7 +28,12 @@ export default function KeyRow({ keys, allLettersGuessed, allLettersInCorrectSpo
                 }
 
                 return (
-                    <LetterKey key={key} content={key} color={color} />
+                    <LetterKey 
+                        key={key} 
+                        content={key} 
+                        color={color} 
+                        handleKeyPress={handleKeyPress}
+                    />
                 )
             })}
         </div>
