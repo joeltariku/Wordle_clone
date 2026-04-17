@@ -13,6 +13,17 @@ describe("App", () => {
         expect(rows).toHaveLength(6);
     })
     describe("Messages", () => {
+        const mockAnswer = "APPLE"
+        it('shows You Win! message after guessing correct', () => {
+            render(<App />)
+
+            mockAnswer.split('').forEach(letter => {
+                fireEvent.keyDown(window, { key: letter })
+            })
+            fireEvent.keyDown(window, { key: 'Enter' })
+
+            expect(screen.getByText('You win!')).toBeInTheDocument()
+        })
          describe("error messages", () => {
             beforeEach(() => {
                 vi.useFakeTimers()

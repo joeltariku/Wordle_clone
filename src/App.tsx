@@ -49,6 +49,7 @@ export default function App() {
             setCurrentGuess('');
             if (currentGuess === ANSWER) {
               setGuessedCorrect(true)
+              setMessage("You win!")
               console.log("You guessed correctly!")
             }
           }
