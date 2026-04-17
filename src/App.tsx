@@ -10,7 +10,7 @@ import mapGuessToColors from './guesses/mapGuessToColors';
 export default function App() {
   const [currentGuess, setCurrentGuess] = useState<string>('');
   const [guesses, setGuesses] = useState<string[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
   const [guessedCorrect, setGuessedCorrect] = useState<boolean>(false)
   const [allLettersGuessed, setAllLettersGuessed] = useState<Set<string>>(new Set())
   const [allLettersInCorrectSpot, setAllLettersInCorrectSpot] = useState<Set<string>>(new Set())
@@ -22,16 +22,16 @@ export default function App() {
     } else if (key === 'Enter') {
         // TODO: Handle Enter key press
         if (currentGuess.length < 5) {
-          setErrorMessage("Not enough letters!");
+          setMessage("Not enough letters!");
           setTimeout(() => {
-            setErrorMessage('');
+            setMessage('');
           }, 1000)
         } else {
           const validGuess = isValidGuess(currentGuess)
           if (!validGuess) {
-            setErrorMessage("Not a valid guess!");
+            setMessage("Not a valid guess!");
             setTimeout(() => {
-              setErrorMessage('');
+              setMessage('');
             }, 1000)
           } else {
             setGuesses(prev => [...prev, currentGuess]);
@@ -85,7 +85,7 @@ export default function App() {
       <Gameboard 
         guesses={guesses} 
         currentGuess={currentGuess} 
-        errorMessage={errorMessage}
+        message={message}
         answer={ANSWER}
       />
       <KeyBoard 

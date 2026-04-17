@@ -27,7 +27,7 @@
     position: relative;
 }
 
-.error-message {
+.message {
     display: flex;
     align-items: center;
     text-align: center;
