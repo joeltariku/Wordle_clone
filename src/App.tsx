@@ -52,7 +52,6 @@ export default function App() {
             if (currentGuess === ANSWER) {
               setGameOver(true)
               setMessage("You win!")
-              console.log("You guessed correctly!")
             } else if ((guesses.length + 1) === 6) {
               setMessage(ANSWER)
             }
