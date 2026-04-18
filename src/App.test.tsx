@@ -14,6 +14,7 @@ describe("App", () => {
     })
     describe("Messages", () => {
         const mockAnswer = "APPLE"
+        const wrongAnswer = "CANDY"
         it('shows You Win! message after guessing correct', () => {
             render(<App />)
 
@@ -23,6 +24,30 @@ describe("App", () => {
             fireEvent.keyDown(window, { key: 'Enter' })
 
             expect(screen.getByText('You win!')).toBeInTheDocument()
+        })
+        it('shows you the answer after guessing incorrectly 6 times', () => {
+            render(<App />)
+
+            for (let i = 0; i < 6; i++) {
+                wrongAnswer.split('').forEach(letter => {
+                    fireEvent.keyDown(window, { key: letter })
+                })
+                fireEvent.keyDown(window, { key: 'Enter' })
+            }
+
+            expect(screen.getByText(mockAnswer)).toBeInTheDocument()
+        })
+        it('does not show the answer before guessing incorrectly 6 times', () => {
+            render(<App />)
+
+            for (let i = 0; i < 5; i++) {
+                wrongAnswer.split('').forEach(letter => {
+                    fireEvent.keyDown(window, { key: letter })
+                })
+                fireEvent.keyDown(window, { key: 'Enter' })
+            }
+
+            expect(screen.queryByText(mockAnswer)).not.toBeInTheDocument()
         })
          describe("error messages", () => {
             beforeEach(() => {

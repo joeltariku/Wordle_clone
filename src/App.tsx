@@ -12,12 +12,13 @@ export default function App() {
   const [guesses, setGuesses] = useState<string[]>([]);
   const [message, setMessage] = useState<string>('');
   const [guessedCorrect, setGuessedCorrect] = useState<boolean>(false)
+  const [usedAllGuesses, setUsedAllGuesses] = useState<boolean>(false)
   const [allLettersGuessed, setAllLettersGuessed] = useState<Set<string>>(new Set())
   const [allLettersInCorrectSpot, setAllLettersInCorrectSpot] = useState<Set<string>>(new Set())
   const [allLettersInDiffSpot, setAllLettersInDiffSpot] = useState<Set<string>>(new Set())
 
   const handleKey = useCallback((key: string) => {
-    if (guessedCorrect) {
+    if (guessedCorrect || usedAllGuesses) {
       return
     } else if (key === 'Enter') {
         // TODO: Handle Enter key press
@@ -35,7 +36,9 @@ export default function App() {
             }, 1000)
           } else {
             setGuesses(prev => [...prev, currentGuess]);
-
+            if ((guesses.length + 1) === 6) {
+              setUsedAllGuesses(true)
+            }
             const colors = mapGuessToColors(currentGuess, ANSWER)
             currentGuess.split('').forEach((letter, i) => {
               setAllLettersGuessed(prevSet => new Set(prevSet).add(letter))
@@ -51,6 +54,8 @@ export default function App() {
               setGuessedCorrect(true)
               setMessage("You win!")
               console.log("You guessed correctly!")
+            } else if ((guesses.length + 1) === 6) {
+              setMessage(ANSWER)
             }
           }
         }
@@ -64,7 +69,7 @@ export default function App() {
         }
         //setGuesses(prev => [...prev.slice(0, -1), prev[prev.length - 1] + key.toUpperCase()]);
     }
-  }, [currentGuess, guessedCorrect]);
+  }, [guesses, usedAllGuesses, currentGuess, guessedCorrect]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
