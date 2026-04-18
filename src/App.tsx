@@ -11,13 +11,13 @@ export default function App() {
   const [currentGuess, setCurrentGuess] = useState<string>('');
   const [guesses, setGuesses] = useState<string[]>([]);
   const [message, setMessage] = useState<string>('');
-  const [guessedCorrect, setGuessedCorrect] = useState<boolean>(false)
   const [allLettersGuessed, setAllLettersGuessed] = useState<Set<string>>(new Set())
   const [allLettersInCorrectSpot, setAllLettersInCorrectSpot] = useState<Set<string>>(new Set())
   const [allLettersInDiffSpot, setAllLettersInDiffSpot] = useState<Set<string>>(new Set())
+  const [gameOver, setGameOver] = useState<boolean>(false)
 
   const handleKey = useCallback((key: string) => {
-    if (guessedCorrect) {
+    if (gameOver) {
       return
     } else if (key === 'Enter') {
         // TODO: Handle Enter key press
@@ -35,7 +35,9 @@ export default function App() {
             }, 1000)
           } else {
             setGuesses(prev => [...prev, currentGuess]);
-
+            if ((guesses.length + 1) === 6) {
+              setGameOver(true)
+            }
             const colors = mapGuessToColors(currentGuess, ANSWER)
             currentGuess.split('').forEach((letter, i) => {
               setAllLettersGuessed(prevSet => new Set(prevSet).add(letter))
@@ -48,8 +50,10 @@ export default function App() {
 
             setCurrentGuess('');
             if (currentGuess === ANSWER) {
-              setGuessedCorrect(true)
-              console.log("You guessed correctly!")
+              setGameOver(true)
+              setMessage("You win!")
+            } else if ((guesses.length + 1) === 6) {
+              setMessage(ANSWER)
             }
           }
         }
@@ -63,7 +67,7 @@ export default function App() {
         }
         //setGuesses(prev => [...prev.slice(0, -1), prev[prev.length - 1] + key.toUpperCase()]);
     }
-  }, [currentGuess, guessedCorrect]);
+  }, [guesses, currentGuess, gameOver]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -93,6 +97,7 @@ export default function App() {
         allLettersInCorrectSpot={allLettersInCorrectSpot}
         allLettersInDiffSpot={allLettersInDiffSpot}
         handleKeyPress={handleKey}
+        isGameOver={gameOver}
       />
     </GamePage>
   )

@@ -5,16 +5,18 @@ type KeyBoardProps = {
     allLettersInCorrectSpot: Set<string>;
     allLettersInDiffSpot: Set<string>;
     handleKeyPress: (key: string) => void;
+    isGameOver: boolean;
 }
 
 export default function KeyBoard({ 
     allLettersGuessed, 
     allLettersInCorrectSpot, 
     allLettersInDiffSpot,
-    handleKeyPress
+    handleKeyPress,
+    isGameOver
 }: KeyBoardProps) {
     return (
-        <div className="keyboard">
+        <div className={`keyboard ${isGameOver ? 'remove-display' : ''}`}>
             <KeyRow 
                 keys={['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P']} 
                 allLettersGuessed={allLettersGuessed}

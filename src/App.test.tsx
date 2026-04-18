@@ -13,6 +13,42 @@ describe("App", () => {
         expect(rows).toHaveLength(6);
     })
     describe("Messages", () => {
+        const mockAnswer = "APPLE"
+        const wrongAnswer = "CANDY"
+        it('shows You Win! message after guessing correct', () => {
+            render(<App />)
+
+            mockAnswer.split('').forEach(letter => {
+                fireEvent.keyDown(window, { key: letter })
+            })
+            fireEvent.keyDown(window, { key: 'Enter' })
+
+            expect(screen.getByText('You win!')).toBeInTheDocument()
+        })
+        it('shows you the answer after guessing incorrectly 6 times', () => {
+            render(<App />)
+
+            for (let i = 0; i < 6; i++) {
+                wrongAnswer.split('').forEach(letter => {
+                    fireEvent.keyDown(window, { key: letter })
+                })
+                fireEvent.keyDown(window, { key: 'Enter' })
+            }
+
+            expect(screen.getByText(mockAnswer)).toBeInTheDocument()
+        })
+        it('does not show the answer before guessing incorrectly 6 times', () => {
+            render(<App />)
+
+            for (let i = 0; i < 5; i++) {
+                wrongAnswer.split('').forEach(letter => {
+                    fireEvent.keyDown(window, { key: letter })
+                })
+                fireEvent.keyDown(window, { key: 'Enter' })
+            }
+
+            expect(screen.queryByText(mockAnswer)).not.toBeInTheDocument()
+        })
          describe("error messages", () => {
             beforeEach(() => {
                 vi.useFakeTimers()
@@ -301,5 +337,37 @@ describe("App", () => {
             })
         })
 
+    })
+    describe('Game end', () => {
+        const mockAnswer = "APPLE"
+        const wrongAnswer = "CANDY"
+        describe('Keyboard visibility', () => {
+            it('keyboard should be removed after guessing the correct answer', () => {
+                const { container } = render(<App />)
+                
+                expect(container.querySelector('.keyboard.remove-display')).not.toBeInTheDocument()
+
+                mockAnswer.split('').forEach(letter => {
+                    fireEvent.keyDown(window, { key: letter })
+                })
+                fireEvent.keyDown(window, { key: 'Enter' })
+
+                expect(container.querySelector('.keyboard.remove-display')).toBeInTheDocument()
+            })
+            it('keyboard should be removed after 6 incorrect guesses', () => {
+                const { container } = render(<App />)
+
+                expect(container.querySelector('.keyboard.remove-display')).not.toBeInTheDocument()
+
+                for (let i = 0; i < 6; i++) {
+                    wrongAnswer.split('').forEach(letter => {
+                        fireEvent.keyDown(window, { key: letter })
+                    })
+                    fireEvent.keyDown(window, { key: 'Enter' })
+                }
+
+                expect(container.querySelector('.keyboard.remove-display')).toBeInTheDocument()
+            })
+        })
     })
 })
