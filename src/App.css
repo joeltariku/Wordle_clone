@@ -82,6 +82,10 @@
     gap: 0.5rem;
 }
 
+.keyboard.remove-display {
+    display: none;
+}
+
 .key-row {
     display: flex;
 }

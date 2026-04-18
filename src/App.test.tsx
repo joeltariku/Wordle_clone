@@ -338,4 +338,36 @@ describe("App", () => {
         })
 
     })
+    describe('Game end', () => {
+        const mockAnswer = "APPLE"
+        const wrongAnswer = "CANDY"
+        describe('Keyboard visibility', () => {
+            it('keyboard should be removed after guessing the correct answer', () => {
+                const { container } = render(<App />)
+                
+                expect(container.querySelector('.keyboard.remove-display')).not.toBeInTheDocument()
+
+                mockAnswer.split('').forEach(letter => {
+                    fireEvent.keyDown(window, { key: letter })
+                })
+                fireEvent.keyDown(window, { key: 'Enter' })
+
+                expect(container.querySelector('.keyboard.remove-display')).toBeInTheDocument()
+            })
+            it('keyboard should be removed after 6 incorrect guesses', () => {
+                const { container } = render(<App />)
+
+                expect(container.querySelector('.keyboard.remove-display')).not.toBeInTheDocument()
+
+                for (let i = 0; i < 6; i++) {
+                    wrongAnswer.split('').forEach(letter => {
+                        fireEvent.keyDown(window, { key: letter })
+                    })
+                    fireEvent.keyDown(window, { key: 'Enter' })
+                }
+
+                expect(container.querySelector('.keyboard.remove-display')).toBeInTheDocument()
+            })
+        })
+    })
 })
