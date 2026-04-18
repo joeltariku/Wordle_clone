@@ -36,7 +36,6 @@ export default function App() {
           } else {
             setGuesses(prev => [...prev, currentGuess]);
             if ((guesses.length + 1) === 6) {
-              //setUsedAllGuesses(true)
               setGameOver(true)
             }
             const colors = mapGuessToColors(currentGuess, ANSWER)
@@ -51,7 +50,6 @@ export default function App() {
 
             setCurrentGuess('');
             if (currentGuess === ANSWER) {
-              //setGuessedCorrect(true)
               setGameOver(true)
               setMessage("You win!")
               console.log("You guessed correctly!")
