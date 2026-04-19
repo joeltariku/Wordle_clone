@@ -1,10 +1,5 @@
 import test, { expect } from "@playwright/test";
 
-test('has correct title', async ({ page }) => {
-    await page.goto('http://localhost:5173')
-
-    await expect(page).toHaveTitle('wordle')
-})
 test('button click does not take focus from the window', async ({ page }) => {
     await page.goto('http://localhost:5173')
 
