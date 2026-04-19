@@ -11,7 +11,8 @@ export default defineConfig(({ command }) => ({
     coverage: {
       reporter: ['html', 'json']
     },
-    setupFiles: ['./vitest-setup.ts']
+    setupFiles: ['./vitest-setup.ts'],
+    exclude: ['node_modules/**', 'e2e/**']
   }, 
   base: command === 'build' ? '/Wordle_clone/' : '/'
 }))
